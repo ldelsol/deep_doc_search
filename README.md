@@ -21,9 +21,6 @@ Deep Doc Search is a document-based search and question-answering tool that leve
 - [Installation](#installation)
 - [Usage](#usage)
 - [Evaluation](#evaluation)
-- [Directory Structure](#directory-structure)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 

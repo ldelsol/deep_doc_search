@@ -10,9 +10,9 @@ EMBEDDING_MODELS = [
     "sentence-transformers/all-distilroberta-v1",
 ]
 
-# List of chunk sizes to test
+# List of chunk sizes and overlaps to test
 CHUNK_SIZES = [200, 500, 1000]
-CHUNK_OVERLAP = 50  # Maintain a constant overlap
+CHUNK_OVERLAPS = [50, 100]
 
 # Query and ground truth for evaluation
 QUERY = "What is the plan to protect water resources?"
@@ -22,15 +22,15 @@ def normalize_text(text):
     """Cleans text by removing extra spaces, line breaks, and converting to lowercase."""
     return " ".join(text.lower().strip().split())
 
-def evaluate_embedding_quality(model_name, chunk_size, text):
-    """Tests an embedding model with a given chunk size and evaluates FAISS retrieval."""
-    print(f"\nTesting {model_name} | Chunk Size: {chunk_size}")
+def evaluate_embedding_quality(model_name, chunk_size, chunk_overlap, text):
+    """Tests an embedding model with given chunk size and overlap, evaluates FAISS retrieval."""
+    print(f"\nTesting {model_name} | Chunk Size: {chunk_size} | Chunk Overlap: {chunk_overlap}")
 
     # Load the embedding model
     embeddings = HuggingFaceEmbeddings(model_name=model_name)
 
     # Split the text into chunks
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=CHUNK_OVERLAP)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     chunks = text_splitter.split_text(text)
 
     # Convert chunks into embeddings
@@ -69,7 +69,7 @@ def evaluate_embedding_quality(model_name, chunk_size, text):
     if found_rank != -1:
         print(f"\nGround truth found at rank {found_rank} with a distance of {best_distance:.4f}")
     else:
-        print("\nGround truth not found in the top 10 results.")
+        print("\nGround truth not found in the top 5 results.")
 
     return found_rank, best_distance
 
@@ -81,13 +81,14 @@ text = extract_text_from_pdf(pdf_path)
 results = []
 for model in EMBEDDING_MODELS:
     for chunk_size in CHUNK_SIZES:
-        found_rank, best_distance = evaluate_embedding_quality(model, chunk_size, text)
-        results.append((model, chunk_size, found_rank, best_distance))
+        for chunk_overlap in CHUNK_OVERLAPS:
+            found_rank, best_distance = evaluate_embedding_quality(model, chunk_size, chunk_overlap, text)
+            results.append((model, chunk_size, chunk_overlap, found_rank, best_distance))
 
 # Display a summary of the results
 print("\nSUMMARY OF TEST RESULTS:")
-for model, chunk_size, rank, dist in results:
+for model, chunk_size, chunk_overlap, rank, dist in results:
     if rank != -1:
-        print(f"Model: {model} | Chunk Size: {chunk_size} | Found at Rank: {rank} | Distance: {dist:.4f}")
+        print(f"Model: {model} | Chunk Size: {chunk_size} | Overlap: {chunk_overlap} | Found at Rank: {rank} | Distance: {dist:.4f}")
     else:
-        print(f"Model: {model} | Chunk Size: {chunk_size} | Ground truth NOT FOUND in the top 10")
+        print(f"Model: {model} | Chunk Size: {chunk_size} | Overlap: {chunk_overlap} | Ground truth NOT FOUND in the top 5")

@@ -46,7 +46,6 @@ def search_in_vector_store(query, k=3):
 
     return results, distances
 
-# Test the impact of normalization
 # Tested with: "WHAT ARE LVMH’S SUSTAINABILITY GOALS?"
 if __name__ == "__main__":
     query = input("Enter your search query: ")
@@ -58,7 +57,6 @@ if __name__ == "__main__":
     query_normalized = normalize_query(query)
     results_norm, distances_norm = search_in_vector_store(query_normalized)
 
-    # Display results
     print("\nResults WITHOUT normalization:")
     for i, (res, dist) in enumerate(zip(results_raw, distances_raw)):
         print(f"\nResult {i+1} (Distance: {dist:.4f}):\n{res}")
@@ -67,7 +65,6 @@ if __name__ == "__main__":
     for i, (res, dist) in enumerate(zip(results_norm, distances_norm)):
         print(f"\nResult {i+1} (Distance: {dist:.4f}):\n{res}")
 
-    # Compare results
     print("\nComparison of results:")
     if results_raw == results_norm:
         print("Normalization does not change the results.")

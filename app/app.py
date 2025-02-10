@@ -7,8 +7,7 @@ st.title("📚 Chatbot FAQ on Internal Document")
 user_query = st.text_input("Ask your question about the document:", "")
 
 if user_query:
-    # Retrieve only the textual results
-    search_results, _ = search_in_vector_store(user_query, k=3)  # Ignoring distances
+    search_results, _ = search_in_vector_store(user_query, k=3) 
 
     if search_results:
         context = "\n\n".join(search_results)  

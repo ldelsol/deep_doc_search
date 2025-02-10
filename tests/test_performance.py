@@ -67,7 +67,6 @@ def test_performance(queries, k=3):
         total_times.append(total_time)
         print(f"   🏁 Total Response Time: {total_time:.4f} sec\n")
 
-    # Display average times
     avg_faiss_time = np.mean(faiss_times)
     avg_llm_time = np.mean(llm_times)
     avg_total_time = np.mean(total_times)

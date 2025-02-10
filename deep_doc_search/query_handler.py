@@ -3,9 +3,8 @@ import faiss
 from langchain_huggingface import HuggingFaceEmbeddings
 import pickle
 import os
-import re  # Import module for query normalization
+import re
 
-# Storage paths for FAISS index and associated texts
 DB_PATH = "data/faiss_index"
 METADATA_PATH = "data/metadata.pkl"
 
@@ -15,10 +14,8 @@ def load_vector_store():
         print("No FAISS database found. Run `vector_store.py` first.")
         return None, None
 
-    # Load FAISS index
     index = faiss.read_index(DB_PATH)
 
-    # Load associated texts
     with open(METADATA_PATH, "rb") as f:
         documents = pickle.load(f)
 
@@ -26,9 +23,9 @@ def load_vector_store():
 
 def normalize_query(query):
     """Normalizes the user query (lowercase, removes punctuation, trims spaces)."""
-    query = query.lower()  # Convert to lowercase
+    query = query.lower() 
     query = re.sub(r'[^\w\s]', '', query)  # Remove punctuation
-    query = query.strip()  # Trim unnecessary spaces
+    query = query.strip()
     return query
 
 def search_in_vector_store(query, k=3):
@@ -37,27 +34,22 @@ def search_in_vector_store(query, k=3):
     if index is None or documents is None:
         return [], []
 
-    # Load the embedding model
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-distilroberta-v1")
 
-    # Normalize user query before encoding
     query = normalize_query(query)
 
-    # Generate embedding for the query
     query_vector = embeddings.embed_query(query)
     query_vector = np.array([query_vector]).astype('float32')
 
-    # Perform the search in FAISS
     D, I = index.search(query_vector, k)
 
-    # Retrieve results and distances
     results = [documents[i] for i in I[0] if i != -1]
     distances = [D[0][j] for j in range(len(I[0])) if I[0][j] != -1]
 
     return results, distances
 
 
-# Module testing
+# Testing
 if __name__ == "__main__":
     query = input("Enter your search query: ")
     results, distances = search_in_vector_store(query)

@@ -1,4 +1,4 @@
-import fitz  # PyMuPDF
+import fitz 
 
 def extract_text_from_pdf(pdf_path):
     """Extracts text from a PDF document."""
@@ -8,9 +8,9 @@ def extract_text_from_pdf(pdf_path):
         text += page.get_text() + "\n"
     return text
 
-# Module testing
+# Testing
 if __name__ == "__main__":
-    pdf_path = "data/test.pdf"  # Replace with an actual PDF file
+    pdf_path = "data/test.pdf" 
     extracted_text = extract_text_from_pdf(pdf_path)
     print("Extracted text from PDF:")
-    print(extracted_text[:500])  # Display the first 500 characters
+    print(extracted_text[:500]) 

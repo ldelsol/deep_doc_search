@@ -4,7 +4,6 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from deep_doc_search.query_handler import search_in_vector_store
 from deep_doc_search.llm_handler import generate_response
 
-# Load the embedding model
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-distilroberta-v1")
 
 def normalize_text(text):
@@ -20,7 +19,6 @@ def evaluate_recall_k(queries, ground_truths, k=3):
     for query, expected_answer in zip(queries, ground_truths):
         results, _ = search_in_vector_store(query, k)
 
-        # Normalize text for comparison
         expected_answer_norm = normalize_text(expected_answer)
 
         # Check if the correct response is among the top k results
@@ -30,10 +28,9 @@ def evaluate_recall_k(queries, ground_truths, k=3):
         for i, res in enumerate(results):
             if expected_answer_norm in normalize_text(res):
                 found = True
-                rank = i + 1  # 1-based index
+                rank = i + 1
                 break  
 
-        # Store results
         if found:
             correct += 1
             details.append(f"✅ Query: '{query}' → Found at position {rank} / {k}")
@@ -42,7 +39,6 @@ def evaluate_recall_k(queries, ground_truths, k=3):
 
     recall_k = correct / total
 
-    # Display detailed results
     print("\n📊 Recall@k Details:")
     for detail in details:
         print(detail)
@@ -58,7 +54,6 @@ def evaluate_rouge_l(queries, ground_truths):
     for query, expected_answer in zip(queries, ground_truths):
         generated_response = generate_response(query)  
 
-        # Compute ROUGE-L score
         rouge_l = scorer.score(expected_answer, generated_response)['rougeL'].fmeasure
         scores.append(rouge_l)
 
@@ -105,13 +100,10 @@ if __name__ == "__main__":
 
     print("\n🔍 MODEL EVALUATION")
     
-    # Recall@k evaluation
     recall_score = evaluate_recall_k(queries, ground_truths, k=3)
 
-    # ROUGE-L evaluation with LLM validation
     rouge_l_score = evaluate_rouge_l(queries, ground_truths)
 
-    # Summary of results
     print("\n📊 OVERALL RESULTS:")
     print(f"✅ Recall@3: {recall_score:.2f}")
     print(f"✅ Average ROUGE-L Score: {rouge_l_score:.2f}")

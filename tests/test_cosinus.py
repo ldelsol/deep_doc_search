@@ -1,12 +1,10 @@
 from langchain_community.embeddings import HuggingFaceEmbeddings
 import numpy as np
 
-# Load the embedding model
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-# Raw text inputs
 text_1 = "Amazon optimizes its logistics with AI."
-text_2 = "amazon optimizes its logistics with ai"  # Lowercase, no punctuation
+text_2 = "amazon optimizes its logistics with ai"
 
 vec1 = np.array(embeddings.embed_query(text_1))
 vec2 = np.array(embeddings.embed_query(text_2))

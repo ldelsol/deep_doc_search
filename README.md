@@ -1,64 +1,73 @@
-# Deep Doc Search
+Voici un **README.md** optimisé pour GitHub, structuré avec des badges, une table des matières et une présentation claire du projet.
 
-Deep Doc Search is a powerful tool for document search and question-answering using embeddings and vector similarity. It supports PDF ingestion, vectorization, and natural language queries.
+---
 
-## Features
-- **Custom Embedding Models**: Support for various embedding models like `all-MiniLM-L6-v2` and `all-distilroberta-v1`.
-- **Chunk-Based Vectorization**: Flexible chunk sizes to optimize retrieval performance.
-- **FAISS Integration**: Efficient vector search for quick and accurate results.
-- **LLM Integration**: Precise answers generated using language models.
-- **Evaluation Tools**: Includes Recall@k, ROUGE-L scoring, and performance benchmarking.
+# Deep Doc Search 📄🔍  
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)  
+[![FAISS](https://img.shields.io/badge/FAISS-Vector_Search-green)](https://faiss.ai/)  
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)  
+[![Streamlit](https://img.shields.io/badge/Streamlit-Web_App-red)](https://streamlit.io/)  
 
-## Installation
+Deep Doc Search is a document-based search and question-answering tool that leverages **vector embeddings, FAISS, and LLMs** for **fast and accurate information retrieval**.  
 
-### Prerequisites
-Ensure you have Python 3.8+ installed. Create a virtual environment for better dependency management:
-python -m venv env
-source env/bin/activate  # On Windows, use `env\Scripts\activate`
+---
 
-### Steps to Install
-1. Clone the repository:
-   git clone https://github.com/ldelsol/deep_doc_search.git
-   cd deep_doc_search
+## 🚀 Features
+✅ **Custom Embedding Models**: Supports `all-MiniLM-L6-v2`, `all-distilroberta-v1`, and more.  
+✅ **Efficient Vector Search**: Uses **FAISS** for optimized document retrieval.  
+✅ **LLM-Powered Answers**: Generates precise responses based on document content.  
+✅ **Modular Architecture**: Designed for flexibility and scalability.  
+✅ **Evaluation Tools**: Built-in **Recall@k**, **ROUGE-L**, and performance benchmarking.  
 
-2. Install dependencies:
-   pip install -r requirements.txt
+---
 
-3. Install the project in editable mode:
-   pip install -e .
+## 📖 Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Evaluation](#evaluation)
+- [Directory Structure](#directory-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Usage
+---
 
-### 1. Ingest and Vectorize a PDF
-To process a PDF and create a vector store, run the following:
+## 🛠 Installation
+
+### 1️⃣ Clone the repository  
+git clone https://github.com/ldelsol/deep_doc_search.git
+cd deep_doc_search
+
+### 2️⃣ Install dependencies  
+pip install -r requirements.txt
+
+### 3️⃣ Install the package in editable mode  
+pip install -e .
+
+---
+
+## 📌 Usage
+
+### 🔹 1. Process and Vectorize a PDF
+To extract text and generate vector embeddings:
 python deep_doc_search/vector_store.py
-This will create a FAISS vector index from the content of the PDF.
 
-### 2. Query the Document
-Launch the Streamlit application to query your document:
+### 🔹 2. Query the Document
+Run the interactive **Streamlit** web app:
 streamlit run app/app.py
-This opens an interactive interface for querying and retrieving answers.
+This opens a UI where you can ask questions based on the document content.
 
-### 3. Evaluate the Model
-Run the evaluation script to test Recall@k and ROUGE-L metrics:
+### 🔹 3. Run a Query via CLI
+python deep_doc_search/query_handler.py "What is the plan to protect water resources?"
+
+---
+
+## 📊 Evaluation
+
+### 🔹 1. Evaluate Retrieval Performance (Recall@k)
 python tests/evaluate_model.py
 
-### 4. Test Hyperparameters
-You can test different embedding models and chunk sizes:
+### 🔹 2. Test Different Embeddings and Chunk Sizes
 python tests/hyperparameter_tuning.py
 
-## Directory Structure
-deep_doc_search/
-│
-├── app/                     # Streamlit application
-├── data/                    # Data files (PDFs, vector store)
-├── deep_doc_search/         # Core package
-│   ├── llm_handler.py       # LLM integration
-│   ├── pdf_processing.py    # PDF processing logic
-│   ├── query_handler.py     # Query and FAISS interaction
-│   └── vector_store.py      # Vector store creation
-├── tests/                   # Evaluation and performance tests
-├── README.md                # Project overview
-├── requirements.txt         # Python dependencies
-├── setup.py                 # Package setup
-└── .gitignore               # Files to ignore in version control
+### 🔹 3. Measure Response Quality with ROUGE-L
+python tests/test_rouge.py

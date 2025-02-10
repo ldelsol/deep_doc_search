@@ -1,7 +1,3 @@
-Voici un **README.md** optimisé pour GitHub, structuré avec des badges, une table des matières et une présentation claire du projet.
-
----
-
 # Deep Doc Search 📄🔍  
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)  
 [![FAISS](https://img.shields.io/badge/FAISS-Vector_Search-green)](https://faiss.ai/)  

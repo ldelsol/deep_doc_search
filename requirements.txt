@@ -1,0 +1,10 @@
+faiss_cpu==1.10.0
+fitz==0.0.1.dev2
+langchain==0.3.18
+langchain_community==0.3.17
+langchain_huggingface==0.1.2
+numpy==2.2.2
+ollama==0.4.7
+rouge_score==0.1.2
+setuptools==75.8.0
+streamlit==1.42.0

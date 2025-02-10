@@ -1,0 +1,31 @@
+# Python-related
+*.pyc
+__pycache__/
+
+# Environment files
+*.env
+*.venv
+
+# Metadata
+*.pkl
+faiss_index
+
+# Build files
+*.egg-info/
+build/
+dist/
+
+# Logs and outputs
+*.log
+*.out
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE and editor files
+.vscode/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace

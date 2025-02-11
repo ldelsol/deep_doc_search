@@ -1,0 +1,18 @@
+{
+    "queries": [
+        "What is the plan to protect water resources?",
+        "Who is the CEO of LVMH?",
+        "Which countries generate the most revenue for LVMH?",
+        "How many Maisons are part of LVMH?",
+        "What is the main focus of the LIFE 360 environmental program?",
+        "What percentage of LVMH employees are women?"
+    ],
+    "ground_truths": [
+        "The goal is a 30% reduction in the amount of water used by LVMH’s operations and its value chain by 2030",
+        "Bernard Arnault",
+        "United States",
+        "75 Maisons are part of LVMH",
+        "Under our groundbreaking LIFE 360 environmental program, for example, we have cut our CO2 emissions by almost one-third since 2019, and have substantially ramped up all the Group's initiatives to protect natural habitats, preserve biodiversity and take a circular economy approach to our use of resources",
+        "71% of LVMH employees are women"
+    ]
+}

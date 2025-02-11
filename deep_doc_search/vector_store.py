@@ -2,7 +2,7 @@ import faiss
 import numpy as np
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
-from pdf_processing import extract_text_from_pdf
+from deep_doc_search.pdf_processing import extract_text_from_pdf
 import os
 import pickle 
 
@@ -14,10 +14,10 @@ def create_vector_store_from_pdf(pdf_path):
 
     text = extract_text_from_pdf(pdf_path)
 
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=50)
     documents = text_splitter.split_text(text)
 
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-distilroberta-v1")
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
     vectors = [embeddings.embed_query(doc) for doc in documents]
     vectors = np.array(vectors).astype('float32')

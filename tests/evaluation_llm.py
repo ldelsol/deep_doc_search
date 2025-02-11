@@ -1,8 +1,16 @@
+import json
 import numpy as np
 from rouge_score import rouge_scorer
 from langchain_huggingface import HuggingFaceEmbeddings
 from deep_doc_search.query_handler import search_in_vector_store
 from deep_doc_search.llm_handler import generate_response
+
+# Load queries and ground truths from JSON file
+def load_evaluation_data():
+    """Loads evaluation queries and ground truths from a JSON file."""
+    with open("data/evaluation_data.json", "r") as f:
+        data = json.load(f)
+    return data["queries"], data["ground_truths"]
 
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-distilroberta-v1")
 
@@ -18,7 +26,6 @@ def evaluate_recall_k(queries, ground_truths, k=3):
 
     for query, expected_answer in zip(queries, ground_truths):
         results, _ = search_in_vector_store(query, k)
-
         expected_answer_norm = normalize_text(expected_answer)
 
         # Check if the correct response is among the top k results
@@ -53,7 +60,6 @@ def evaluate_rouge_l(queries, ground_truths):
 
     for query, expected_answer in zip(queries, ground_truths):
         generated_response = generate_response(query)  
-
         rouge_l = scorer.score(expected_answer, generated_response)['rougeL'].fmeasure
         scores.append(rouge_l)
 
@@ -86,22 +92,12 @@ def llm_validate_answer(reference, generated):
     return "yes" in evaluation_result.lower()
 
 if __name__ == "__main__":
-    # List of test queries and ground truth answers
-    queries = [
-        "What is the plan to protect water resources?",
-        "Who is the CEO of LVMH?",
-        "Which countries generate the most revenue for LVMH?"
-    ]
-    ground_truths = [
-        "The goal is a 30% reduction in the amount of water used by LVMH’s operations and its value chain by 2030",
-        "Bernard Arnault",
-        "United States"
-    ]
+    # Load evaluation data
+    queries, ground_truths = load_evaluation_data()
 
     print("\n🔍 MODEL EVALUATION")
     
     recall_score = evaluate_recall_k(queries, ground_truths, k=3)
-
     rouge_l_score = evaluate_rouge_l(queries, ground_truths)
 
     print("\n📊 OVERALL RESULTS:")

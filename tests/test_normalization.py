@@ -48,7 +48,7 @@ def search_in_vector_store(query, k=3):
 
 # Tested with: "WHAT ARE LVMH’S SUSTAINABILITY GOALS?"
 if __name__ == "__main__":
-    query = input("Enter your search query: ")
+    query = 'What is the plan to protect water resources?'
 
     # Search without normalization
     results_raw, distances_raw = search_in_vector_store(query)

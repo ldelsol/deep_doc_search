@@ -1,10 +1,11 @@
 from langchain_community.embeddings import HuggingFaceEmbeddings
+from deep_doc_search.query_handler import normalize_query
 import numpy as np
 
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 text_1 = "Amazon optimizes its logistics with AI."
-text_2 = "amazon optimizes its logistics with ai"
+text_2 = normalize_query(text_1)
 
 vec1 = np.array(embeddings.embed_query(text_1))
 vec2 = np.array(embeddings.embed_query(text_2))

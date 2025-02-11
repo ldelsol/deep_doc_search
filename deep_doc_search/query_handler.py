@@ -34,7 +34,7 @@ def search_in_vector_store(query, k=3):
     if index is None or documents is None:
         return [], []
 
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-distilroberta-v1")
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
     query = normalize_query(query)
 
